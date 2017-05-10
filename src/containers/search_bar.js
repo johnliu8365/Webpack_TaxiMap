@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { selectDestination } from '../actions/index';
 
 class SearchBar extends Component {
+
+  onSelectChange(event) {
+    const destination = event.target.value;
+    this.props.selectDestination(destination);
+  }
 
   renderList() {
     return this.props.destination.map((destination) => {
@@ -20,7 +27,10 @@ class SearchBar extends Component {
     return (
       <ul>
         <h3> Destination </h3>
-        <select className="list-group col-sm-4">
+        <select
+        onChange={this.onSelectChange.bind(this)}
+        className="list-group col-sm-4"
+        >
           {this.renderList()}
         </select>
       </ul>
@@ -34,4 +44,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(SearchBar);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ selectDestination: selectDestination }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
