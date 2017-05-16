@@ -25,22 +25,22 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <ul>
-        <h3> Destination </h3>
-        <select
-        onChange={this.onSelectChange.bind(this)}
-        className="list-group col-sm-4"
-        >
-          {this.renderList()}
-        </select>
-      </ul>
+      <div> 
+          <div style={{ width: 600, height: 100 }} > 
+            <label htmlFor="select1" >請選擇到達地點:</label> 
+            <select onChange={this.onSelectChange.bind(this)} className="form-control"> 
+              {this.renderList()} 
+            </select> 
+          </div> 
+
+        </div>
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    destination: state.destination
+    destination: state.destination,
   };
 }
 
