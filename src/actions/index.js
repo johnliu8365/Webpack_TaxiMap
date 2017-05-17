@@ -5,3 +5,11 @@ export function selectDestination(destination) {
     payload: destination
   };
 }
+
+export function selectDriver(driver) {
+	console.log(driver);
+	return {
+		type: 'DRIVER_SELECTED',
+		payload: driver
+	};
+}

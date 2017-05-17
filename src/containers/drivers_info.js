@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { selectDriver } from '../actions/index';
+
 
 class DriverInfo extends Component {
 
@@ -8,6 +12,7 @@ class DriverInfo extends Component {
 			return (
 				<li
 					key={info.id}
+					onClick={() => this.props.selectDriver(info)}
 					className="list-group-item"
 				>
 					{info.DriverName}
@@ -32,4 +37,8 @@ class DriverInfo extends Component {
 		};
 	}
 
-export default connect(mapStateToProps)(DriverInfo);
+	function mapDispatchToProps(dispatch) {
+	return bindActionCreators({ selectDriver: selectDriver }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DriverInfo);
