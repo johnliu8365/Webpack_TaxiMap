@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import { selectDestination } from '../actions/index';
 
 class SearchBar extends Component {
@@ -10,11 +11,27 @@ class SearchBar extends Component {
     this.props.selectDestination(destination);
   }
 
+
+
+        //   var pokemonId = event.target.value;
+        // const { latitude, longitude, level } = this.props.filter;
+
+        // //console.log(pokemonId);
+        // this.setState({ id: pokemonId });
+
+        // this.props.fetchPokemonsLocation(latitude, longitude, level, pokemonId);
+        // this.props.fetchPokemonInfo(pokemonId);
+        // this.props.setSelectId(pokemonId);
+
+
   renderList() {
-    return this.props.destination.map((destination) => {
+      return Object.keys(this.props.destination).map((key) => {
+                  const destination = this.props.destination[key];
+
       return (
         <option
-          key={destination.title}
+          key={key}
+          value={key}
           className="list-group-item"
         >
           {destination.title}
@@ -27,7 +44,7 @@ class SearchBar extends Component {
     return (
       <div> 
           <div style={{ width: 600, height: 100 }} > 
-            <label htmlFor="select1" >請選擇到達地點:</label> 
+            <label htmlFor="select" >請選擇到達地點:</label> 
             <select onChange={this.onSelectChange.bind(this)} className="form-control"> 
               {this.renderList()} 
             </select> 

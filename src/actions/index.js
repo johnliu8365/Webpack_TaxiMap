@@ -1,8 +1,9 @@
-export function selectDestination(destination) {
-  console.log(destination);
+import { destination } from '../data/sample_drivers_destination';
+
+export function selectDestination(id) {
   return {
     type: 'DESTINATION_SELECTED',
-    payload: destination
+    payload: destination[id]
   };
 }
 

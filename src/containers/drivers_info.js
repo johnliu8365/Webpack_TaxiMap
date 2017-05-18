@@ -32,6 +32,7 @@ class DriverInfo extends Component {
 }
 
 	function mapStateToProps(state) {
+		console.log(state);
 		return {
 			info: state.info
 		};

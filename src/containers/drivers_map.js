@@ -19,7 +19,7 @@ class DirectionsExample extends Component {
 
     DirectionsService.route({
       origin: { lat: 25.047739, lng: 121.517040 },
-      destination: { lat: 25.042214, lng: 121.535498 },
+      destination: { lat: 25.033964, lng: 121.564472 },
       travelMode: google.maps.TravelMode.DRIVING,
     }, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
@@ -40,7 +40,7 @@ class DirectionsExample extends Component {
 
     DirectionsService.route({
       origin: { lat: this.props.driver.latitude, lng: this.props.driver.longitude },
-      destination: { lat: 25.042214, lng: 121.535498 },
+      destination: { lat: this.props.destination.latitude, lng: this.props.destination.longitude },
       travelMode: google.maps.TravelMode.DRIVING,
     }, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
@@ -54,17 +54,20 @@ class DirectionsExample extends Component {
 	}
 
 	render() {
-		if (!this.props.driver) {
-			return <div>Select a driver to get started.</div>;
+		if (!this.props.driver || !this.props.destination) {
+			return <div>請選擇司機與目的地</div>;
 		}
 
     return (
 		<div>
-			<div >{this.props.driver.latitude}</div>
-			<div >{this.props.driver.longitude}</div>
+			<div >出發點:( {this.props.driver.latitude}, {this.props.driver.longitude} )</div>
+			<div >目的地: {this.props.destination.name} 
+      ( {this.props.destination.latitude}, {this.props.destination.longitude} )
+      </div>
+
 			<DirectionsExampleGoogleMap
 			containerElement={
-				<div style={{ width: 700, height: 500 }} />
+				<div style={{ width: 700, height: 300 }} />
 			}
 			mapElement={
 				<div style={{ height: '100%' }} />
@@ -78,9 +81,10 @@ class DirectionsExample extends Component {
 }
 
 function mapStateToProps(state) {
-	console.log(state);
+  console.log(state);
 	return {
-		driver: state.activeDriver
+		driver: state.activeDriver,
+    destination: state.activeDestination
 	};
 }
 
