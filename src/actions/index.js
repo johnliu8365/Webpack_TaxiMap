@@ -14,3 +14,10 @@ export function selectDriver(driver) {
 		payload: driver
 	};
 }
+
+export function setMyLocation(latitude, longitude) {
+    return {
+        type: 'SET_MY_LOCATION',
+        payload: { latitude, longitude }
+    };
+}
