@@ -11,23 +11,9 @@ class SearchBar extends Component {
     this.props.selectDestination(destination);
   }
 
-
-
-        //   var pokemonId = event.target.value;
-        // const { latitude, longitude, level } = this.props.filter;
-
-        // //console.log(pokemonId);
-        // this.setState({ id: pokemonId });
-
-        // this.props.fetchPokemonsLocation(latitude, longitude, level, pokemonId);
-        // this.props.fetchPokemonInfo(pokemonId);
-        // this.props.setSelectId(pokemonId);
-
-
   renderList() {
-      return Object.keys(this.props.destination).map((key) => {
-                  const destination = this.props.destination[key];
-
+    return Object.keys(this.props.destination).map((key) => {
+      const destination = this.props.destination[key];
       return (
         <option
           key={key}
