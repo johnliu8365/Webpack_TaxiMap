@@ -1,25 +1,18 @@
-# ReduxSimpleStarter
+# React Taxi Map
 
-Interested in learning [Redux](https://www.udemy.com/react-redux/)?
+Use React/Redux to build a Taxi Map App
+
+![alt text](https://github.com/johnliu8365/React-Taxi-Map/blob/master/screenshot.gif)
+
+1. React
+2. Redux
+3. Google map
 
 ### Getting Started
 
-There are two methods for getting started with this repo.
-
-#### Familiar with Git?
-Checkout this repo, install dependencies, then start the gulp process with the following:
-
 ```
-> git clone https://github.com/StephenGrider/ReduxSimpleStarter.git
-> cd ReduxSimpleStarter
-> npm install
-> npm start
-```
-
-#### Not Familiar with Git?
-Click [here](https://github.com/StephenGrider/ReactStarter/releases) then download the .zip file.  Extract the contents of the zip file, then open your terminal, change to the project directory, and:
-
-```
+> git clone https://github.com/johnliu8365/React-Taxi-Map.git
+> cd React-Taxi-Map
 > npm install
 > npm start
 ```
