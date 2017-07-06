@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "clean": "rimraf dist",
-    "build": "npm run clean && webpack",
+    "build": "set NODE_ENV=production && npm run clean && webpack",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
     "serve": "webpack-dev-server"
