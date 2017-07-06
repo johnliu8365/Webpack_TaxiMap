@@ -9,7 +9,7 @@ export default class App extends Component {
     return (
 		<div>
 			<SearchBar />
-			<DriversInfo />
+			{/*<DriversInfo />*/}
 			<Map />
         </div>
     );

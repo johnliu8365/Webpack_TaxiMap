@@ -1,21 +1,20 @@
 /* global google */
 
 import React, { Component } from 'react';
-import { withGoogleMap, GoogleMap, DirectionsRenderer, Marker, Circle, InfoWindow } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, DirectionsRenderer, Marker, InfoWindow } from 'react-google-maps';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import raf from "raf";
 import { selectDriver, setMyLocation } from '../actions/index';
 
 const taxi = '../../image/taxi.png';
 const mylocation = '../../image/mylocation.png';
 
 const geolocation = (
-    navigator.geolocation || {
-        getCurrentPosition: (success, failure) => {
-            failure('Your browser doesn\'t support geolocation.');
-        }
-    }
+  navigator.geolocation || {
+      getCurrentPosition: (success, failure) => {
+          failure('Your browser doesn\'t support geolocation.');
+      }
+  }
 );
 
 const DirectionsExampleGoogleMap = withGoogleMap(props => (
@@ -24,31 +23,18 @@ const DirectionsExampleGoogleMap = withGoogleMap(props => (
     defaultCenter={props.center}
   >
 
-  {props.markers.map((marker, index) => {
-    console.log(marker)
+  {props.marker}
 
-    return (
-    <Marker
-      key={index}
-      position={marker.position}
-      icon={taxi}
-      title={(index + 1).toString()}
-      onClick={() => props.onMarkerClick(marker)}
-    >
+  { props.directions && <DirectionsRenderer directions={props.directions} /> }
 
-      {marker.showInfo && (
-          <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
-            <div>Hello</div>
-          </InfoWindow>
-        )}
-    </Marker>
+  <div>
+      <Marker
+      position={props.center}
+      icon={mylocation}
+      />
+      </div>
 
-    );
-    })}
-    {props.directions && <DirectionsRenderer directions={props.directions} />
-  }
-
-  {props.center && (
+  {/*{props.center && (
       <div>
       <div>
       <Marker
@@ -71,57 +57,29 @@ const DirectionsExampleGoogleMap = withGoogleMap(props => (
       />
       </div>
       </div>
-    )}
+    )}*/}
 
   </GoogleMap>
 ));
 
 class DriversMap extends Component {
   state = {
-    radius: 3000,
+    taxiID: null,
   };
 
-  handleMarkerClick = this.handleMarkerClick.bind(this);
-  handleMarkerClose = this.handleMarkerClose.bind(this);
+  // constructor(props) {
+  //   super(props);
 
-  handleMarkerClick(targetMarker) {
-    this.setState({
-     markers: this.props.DriverInfo.find( (marker) => {
-      console.log(targetMarker);
-      console.log(marker.latitude);
-        return marker.latitude === targetMarker.position.lat
-      }),
-    showInfo: true
-    });
-          console.log(this.state);
-  }
+  //   this.state = {
+  //     taxiID: null,
+  //     showInfo: false
+  //   };
+  // }
 
-  handleMarkerClose(targetMarker) {
-    this.setState({
-      markers: this.props.DriverInfo.map( (marker) => {
-        if (marker === targetMarker) {
-          return {
-            ...marker,
-            showInfo: false,
-          };
-        }
-        return marker;
-      }),
-    });
-  }
+  // markerLocation = this.markerLocation.bind(this);
+  // onMarkerClick = this.onMarkerClick.bind(this);
 
   componentDidMount() {
-      const tick = () => {
-      if (this.isUnmounted) {
-        return;
-      }
-      this.setState({ radius: Math.max(this.state.radius - 20, 0) });
-
-      if (this.state.radius > 200) {
-        raf(tick);
-      }
-    };
-
     geolocation.getCurrentPosition((position) => {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
@@ -130,7 +88,6 @@ class DriversMap extends Component {
           longitude: lng 
         });
     this.props.setMyLocation(lat, lng);
-    raf(tick);
     });
   }
 
@@ -156,17 +113,33 @@ class DriversMap extends Component {
     });
   }
 
-
-  DriversMarkerList() {
-    return this.props.DriverInfo.map((info) => {
-      return {
-          position: { lat: info.latitude, lng: info.longitude },
-          showInfo: false,
-          infoContent: (
-          <div>Hello</div>
-        ),
-      };
+  onMarkerClick(targetMarker) {
+    this.setState({
+      taxiID: targetMarker,
+      showInfo: false
     });
+  }
+
+  markerLocation() {
+      return this.props.DriverInfo.map((info) => {
+        return (
+          <Marker
+            key={info.id}
+            icon={taxi}
+            position={{ lat: info.latitude, lng: info.longitude }}
+            onClick={() => this.onMarkerClick(info.id)}
+          >
+            {info.id === this.state.taxiID && (
+              <InfoWindow >
+                <div>
+                  {info.DriverName}
+                  {info.License}
+                </div>
+              </InfoWindow>
+            )}
+          </Marker>
+        );
+      });
   }
  
 	render() {
@@ -190,14 +163,11 @@ class DriversMap extends Component {
 			}
 			center={{ lat: this.state.latitude, lng: this.state.longitude }}
 			directions={this.state.directions}
-        onMarkerClick={this.handleMarkerClick}
-        onMarkerClose={this.handleMarkerClose}
-      markers={this.DriversMarkerList()}
-      radius={this.state.radius}
+      marker={this.markerLocation()}
 			/>
 		</div>
     );
-     }
+    }
 }
 
 function mapStateToProps(state) {
