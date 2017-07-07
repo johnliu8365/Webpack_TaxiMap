@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "clean": "rimraf dist",
-    "build": "set NODE_ENV=production && npm run clean && webpack",
+    "build": "npm run clean && webpack",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
     "serve": "webpack-dev-server"
@@ -25,13 +25,17 @@
     "chai-jquery": "^2.0.0",
     "css-loader": "^0.28.4",
     "eslint-config-rallycoding": "^3.2.0",
+    "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
+    "image-webpack-loader": "^3.3.1",
     "jquery": "^2.2.1",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
     "react-addons-test-utils": "^0.14.7",
     "rimraf": "^2.6.1",
     "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
     "webpack": "^2.2.0-rc.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-dev-server": "^2.2.0-rc.0"

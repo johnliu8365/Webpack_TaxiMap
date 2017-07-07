@@ -1,6 +1,7 @@
-var webpack = require('webpack');
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 const VENDOR_LIBS = [
@@ -16,7 +17,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].[chunkhash].js'
+    filename: '[name].[chunkhash].js',
   },
   module: {
     rules: [
@@ -26,17 +27,32 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        use: ['style-loader', 'css-loader'],
+        loader: ExtractTextPlugin.extract({
+            loader: 'css-loader'
+        }),
         test: /\.css$/
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        use: [
+            {
+                loader: 'url-loader',
+                options: { limit: 40000 }
+            },
+            'image-webpack-loader'
+        ]
       }
     ],
-    loaders: [{
-      exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ['react', 'es2015', 'stage-1']
-      }
-    }]
+    loaders: [
+      {
+        exclude: /node_modules/,
+        loader: 'babel',
+        query:
+        {
+          presets: ['react', 'es2015', 'stage-1']
+        }
+      },
+    ]
   },
   resolve: {
     extensions: ['*', '.js', '.jsx']
@@ -46,6 +62,7 @@ module.exports = {
     contentBase: './'
   },
   plugins: [
+    new ExtractTextPlugin('style.css'),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor', 'manifest']
     }),

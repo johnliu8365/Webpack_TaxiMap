@@ -1,13 +1,14 @@
 /* global google */
 
 import React, { Component } from 'react';
-import { withGoogleMap, GoogleMap, DirectionsRenderer, Marker, InfoWindow } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, DirectionsRenderer,
+   Marker, InfoWindow } from 'react-google-maps';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { selectDriver, setMyLocation } from '../actions/index';
 
-const taxi = '../../image/taxi.png';
-const mylocation = '../../image/mylocation.png';
+import taxi from '../../image/taxi.png';
+import mylocation from '../../image/mylocation.png';
 
 const geolocation = (
   navigator.geolocation || {
@@ -25,15 +26,15 @@ const DirectionsExampleGoogleMap = withGoogleMap(props => (
 
   {props.marker}
 
-  { props.directions && <DirectionsRenderer directions={props.directions} /> }
-
+  { props.directions && <DirectionsRenderer directions={props.directions} />}
+  
   <div>
-      <Marker
+    <Marker
       position={props.center}
       icon={mylocation}
-      />
-      </div>
-
+    />
+  </div>
+  
   {/*{props.center && (
       <div>
       <div>
@@ -122,6 +123,7 @@ class DriversMap extends Component {
 
   markerLocation() {
       return this.props.DriverInfo.map((info) => {
+        //console.log(info);
         return (
           <Marker
             key={info.id}
